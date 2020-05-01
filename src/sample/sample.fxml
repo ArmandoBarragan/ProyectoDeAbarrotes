@@ -1,0 +1,75 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+
+<VBox fx:controller="sample.Controller"
+      xmlns:fx="http://javafx.com/fxml" style="-fx-padding:15; -fx-background-color: #547AA5;">
+
+    <Label text="Abarrotes Doña Esperancita" style="-fx-font-size:30px; -fx-text-fill:#F9FBF2;"/>
+    <HBox spacing="20">
+
+        <VBox spacing="5">
+            <Label text="Buscar Producto(s)" style="-fx-font-size:20px;-fx-text-fill:#F9FBF2;"/>
+            <HBox spacing="10">
+                <VBox>
+
+                    <Label text="Buscar por Id" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextField fx:id="fldIdProducto"/>
+
+                </VBox>
+
+                <VBox>
+
+                    <Label text="Buscar por nombre" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextField fx:id="fldNombreProducto"/>
+
+                </VBox>
+
+            </HBox>
+
+            <Label text="Buscar por categoria" style="-fx-text-fill:#F9FBF2;"/>
+
+            <ChoiceBox prefWidth="160" fx:id="cbBusqudaCategoria"/>
+
+            <TableView/>
+
+            <Button text="Generar Reporte" fx:id="btnReporte"/>
+
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Agregar Producto" style="-fx-text-fill:#F9FBF2; -fx-font-size:20px;"/>
+
+            <GridPane vgap="5" hgap="5">
+
+                <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="fldNombreNuevoProducto"/>
+
+                <Label text="Descripcion (opcional)" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="fldDescripcionNuevoProducto"/>
+
+                <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="fldPrecioNuevoProducto"/>
+
+                <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="fldCategoria"/>
+
+                <Button text="Aceptar" GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="btnNuevoProducto"/>
+            
+            </GridPane>
+
+            <TextArea prefWidth="200" prefHeight="50"/>
+
+        </VBox>
+    </HBox>
+</VBox>
