@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextArea?>
 
+<?import javafx.scene.control.TableColumn?>
 <VBox fx:controller="sample.Controller"
       xmlns:fx="http://javafx.com/fxml" style="-fx-padding:15; -fx-background-color: #547AA5;">
 
@@ -24,14 +25,14 @@
                 <VBox>
 
                     <Label text="Buscar por Id" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField fx:id="fldIdProducto"/>
+                    <TextField fx:id="fldIdProducto" onAction="#cambiarACampoId"/>
 
                 </VBox>
 
                 <VBox>
 
                     <Label text="Buscar por nombre" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField fx:id="fldNombreProducto"/>
+                    <TextField fx:id="fldNombreProducto" onAction="#cambiarACampoNombre"/>
 
                 </VBox>
 
@@ -39,11 +40,24 @@
 
             <Label text="Buscar por categoria" style="-fx-text-fill:#F9FBF2;"/>
 
-            <ChoiceBox prefWidth="160" fx:id="cbBusqudaCategoria"/>
+            <HBox spacing="5">
 
-            <TableView/>
+                <ChoiceBox prefWidth="160" fx:id="cbBusqudaCategoria" onAction="#cambiarACampoCategoria"/>
+                <Button text="Aceptar" fx:id="btnBuscar" onAction="#buscar"/>
 
-            <Button text="Generar Reporte" fx:id="btnReporte"/>
+            </HBox>
+
+            <TableView>
+                <columns>
+                    <TableColumn text="Nombre"/>
+                    <TableColumn text="Descripción"/>
+                    <TableColumn text="Id"/>
+                    <TableColumn text="Precio"/>
+                    <TableColumn text="Categoría"/>
+                </columns>
+            </TableView>
+
+            <Button text="Generar Reporte" fx:id="btnReporte" onAction="#generarReporte"/>
 
         </VBox>
 
@@ -56,7 +70,7 @@
                 <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="fldNombreNuevoProducto"/>
 
                 <Label text="Descripcion (opcional)" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill:#F9FBF2;"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="fldDescripcionNuevoProducto"/>
+                <TextArea GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="areaDescripcionNuevoProducto"/>
 
                 <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
                 <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="fldPrecioNuevoProducto"/>
@@ -64,11 +78,21 @@
                 <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-text-fill:#F9FBF2;"/>
                 <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="fldCategoria"/>
 
-                <Button text="Aceptar" GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="btnNuevoProducto"/>
-            
+                <Button text="Aceptar" GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="btnNuevoProducto" onAction="#agregarProducto"/>
+
             </GridPane>
 
             <TextArea prefWidth="200" prefHeight="50"/>
+            <VBox>
+                <Label text="Agregar Categoria" style="-fx-text-fill:#F9FBF2; -fx-font-size:20px;"/>
+                <GridPane>
+                    <Label text="NombreCategoria" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="fldNombreNuevaCategoria"/>
+
+                    <Label text="DescripcionCategoria" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextArea GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="areaDescripcionNuevaCategoria"/>
+                </GridPane>
+            </VBox>
 
         </VBox>
     </HBox>
