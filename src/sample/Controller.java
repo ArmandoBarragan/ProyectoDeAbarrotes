@@ -16,6 +16,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    private String query;
     public TextField fldNombreProducto;
     public TextField fldIdBuscarProducto;
     public ChoiceBox cbBusqudaCategoria;
@@ -54,7 +55,8 @@ public class Controller implements Initializable {
 
         try {
             declaracion = conexionSql.createStatement();
-            resultSet = declaracion.executeQuery("SELECT nombre_categoria from categoria");
+            query = "nombre_categoria from categoria";
+            resultSet = declaracion.executeQuery("select " + query);
             while(resultSet.next()){
                 cbBusqudaCategoria.getItems().add(resultSet.getString(1));
             }
@@ -66,7 +68,6 @@ public class Controller implements Initializable {
         campoNombreIsInUse = false;
     }
 
-
     @FXML
     public void buscar(){
         conexionLocal = new Conexion();
@@ -76,11 +77,13 @@ public class Controller implements Initializable {
         resultSet = null;
         try {
             if(campoNombreIsInUse){
-                ps = conexionSql.prepareStatement("SELECT * from producto where nombre_producto = (?)");
+                query = "* from producto where nombre_producto = (?)";
+                ps = conexionSql.prepareStatement("SELECT" + query);
                 ps.setString(1,fldNombreProducto.getText());
             }
             else{
-                ps = conexionSql.prepareStatement("SELECT * from producto where id_producto = (?)");
+                query = "* from producto where id_producto = (?)";
+                ps = conexionSql.prepareStatement("SELECT" + query);
                 ps.setString(1, fldIdBuscarProducto.getText());
             }
 
@@ -143,13 +146,14 @@ public class Controller implements Initializable {
                 ps.setString(2, descripcion);
                 ps.setString(3, precio);
                 ps.setInt(4, Integer.parseInt(id_categoria));
-
             }
+
             else {
-                declaracion = conexion2.prepareStatement("INSERT INTO producto (nombre_producto, precio, id_categoria) values (?,?,?)");
+                ps = conexion2.prepareStatement("INSERT INTO producto (nombre_producto, " +
+                        "precio, id_categoria) values (?,?,?)");
                 ps.setString(1, nombre);
                 ps.setString(2, precio);
-                ps.setString(3, id_categoria);
+                ps.setInt(3, Integer.parseInt(id_categoria));
             }
             int resultado = ps.executeUpdate();
             if (resultado > 0){
@@ -172,36 +176,7 @@ public class Controller implements Initializable {
         listaProductos = FXCollections.observableArrayList();
         PreparedStatement ps = null;
         resultSet = null;
-        try {
-            ps = conexionSql.prepareStatement("SELECT * from producto order by nombre_producto");
-            resultSet = ps.executeQuery();
-
-            while(resultSet.next()){
-                int id_producto = resultSet.getInt("id_producto");
-                String nombre_producto = resultSet.getString("nombre_producto");
-                String descripcion_producto = resultSet.getString("descripcion_producto");
-                String precio = resultSet.getString("precio");
-                int id_categoria = resultSet.getInt("id_categoria");
-
-                Producto producto = new Producto();
-                producto.setNombre_producto(nombre_producto);
-                producto.setId_producto(id_producto);
-                producto.setDescripcion_producto(descripcion_producto);
-                producto.setPrecio(precio);
-                producto.setId_categoria(id_categoria);
-
-                listaProductos.add(producto);
-            }
-            colId.setCellValueFactory(new PropertyValueFactory<>("id_producto"));
-            colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre_producto"));
-            colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion_producto"));
-            colCategoria.setCellValueFactory(new PropertyValueFactory<>("id_categoria"));
-            colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-
-            tablarResultados.setItems(listaProductos);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        llenarTabla(false);
     }
 
     public void ordenarPorPrecio(ActionEvent actionEvent) {
@@ -210,11 +185,19 @@ public class Controller implements Initializable {
         listaProductos = FXCollections.observableArrayList();
         ps = null;
         resultSet = null;
+        llenarTabla(true);
+    }
+
+    private void llenarTabla(boolean porPrecio){
         try {
             declaracion = conexionSql.createStatement();
             String orderBy = "";
 
-            ps = conexionSql.prepareStatement("SELECT * from producto order by precio");
+            if(porPrecio)
+                ps = conexionSql.prepareStatement("SELECT * from producto order by precio");
+            else
+                ps = conexionSql.prepareStatement("SELECT * from producto order by nombre_producto");
+
             resultSet = ps.executeQuery();
 
             while(resultSet.next()){
@@ -245,9 +228,6 @@ public class Controller implements Initializable {
         }
     }
 
-    private void ordenar(boolean porPrecio){
-
-    }
     public void cambiarACampoId(MouseEvent actionEvent) {
         campoIdIsInUse = true;
         campoNombreIsInUse = false;
@@ -261,7 +241,7 @@ public class Controller implements Initializable {
     }
 
     public void eliminar(ActionEvent actionEvent) {
-        System.out.println(ps);
+        System.out.println(query);
 //        try{
 //            System.out.println(preparedStatement);
 //        }
@@ -270,20 +250,4 @@ public class Controller implements Initializable {
 //        }
     }
 
-//    protected void crearConexion(){
-//        try{
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection conectar = DriverManager.getConnection (
-//                    "jdbc:mysql://localhost:3306/abarrotes", "root","18550696"
-//            );
-//            System.out.println("Conectado");
-//        }
-//        catch(ClassNotFoundException ex){
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        catch(SQLException ex){
-//            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-//            ex.printStackTrace();
-//        }
-//    }
 }

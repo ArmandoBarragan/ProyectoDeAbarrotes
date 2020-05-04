@@ -44,10 +44,10 @@
                 </HBox>
             </GridPane>
 
-            <TableView fx:id="tablarResultados">
+            <TableView fx:id="tablarResultados" prefWidth="600">
                 <columns>
-                    <TableColumn text="Nombre" fx:id="colNombre"/>
-                    <TableColumn text="Descripción" fx:id="colDescripcion"/>
+                    <TableColumn text="Nombre" fx:id="colNombre" prefWidth="100"/>
+                    <TableColumn text="Descripción" fx:id="colDescripcion" prefWidth="200"/>
                     <TableColumn text="Id" fx:id="colId"/>
                     <TableColumn text="Precio" fx:id="colPrecio"/>
                     <TableColumn text="Categoría" fx:id="colCategoria"/>
