@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +30,7 @@ public class Controller implements Initializable {
     public boolean campoIdIsInUse;
     public TextField fldNombreNuevaCategoria;
     public TextArea areaDescripcionNuevaCategoria;
-    public TableView tablarResultados;
+    public TableView tablaResultados;
     public Button btnNuevaCategoria;
     public Button btnOrdenarAlfabeto;
     public Button btnOrdenarPrecio;
@@ -57,7 +56,7 @@ public class Controller implements Initializable {
             declaracion = conexionSql.createStatement();
             query = "nombre_categoria from categoria";
             resultSet = declaracion.executeQuery("select " + query);
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 cbBusqudaCategoria.getItems().add(resultSet.getString(1));
             }
         } catch (SQLException e) {
@@ -69,19 +68,19 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void buscar(){
+    public void buscar() {
         conexionLocal = new Conexion();
         conexionSql = conexionLocal.getConexion();
         listaProductos = FXCollections.observableArrayList();
         ps = null;
         resultSet = null;
+
         try {
-            if(campoNombreIsInUse){
+            if (campoNombreIsInUse) {
                 query = "* from producto where nombre_producto = (?)";
                 ps = conexionSql.prepareStatement("SELECT" + query);
-                ps.setString(1,fldNombreProducto.getText());
-            }
-            else{
+                ps.setString(1, fldNombreProducto.getText());
+            } else {
                 query = "* from producto where id_producto = (?)";
                 ps = conexionSql.prepareStatement("SELECT" + query);
                 ps.setString(1, fldIdBuscarProducto.getText());
@@ -89,7 +88,7 @@ public class Controller implements Initializable {
 
             resultSet = ps.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int id_producto = resultSet.getInt("id_producto");
                 String nombre_producto = resultSet.getString("nombre_producto");
                 String descripcion_producto = resultSet.getString("descripcion_producto");
@@ -111,7 +110,7 @@ public class Controller implements Initializable {
             colCategoria.setCellValueFactory(new PropertyValueFactory<>("id_categoria"));
             colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 
-            tablarResultados.setItems(listaProductos);
+            tablaResultados.setItems(listaProductos);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,7 +118,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void agregarProducto(){
+    protected void agregarProducto() {
         String nombre = "";
         String descripcion = "";
         String precio = "";
@@ -127,7 +126,7 @@ public class Controller implements Initializable {
 
         if (!fldNombreNuevoProducto.getText().equals(""))
             nombre = fldNombreNuevoProducto.getText();
-        if(!areaDescripcionNuevoProducto.getText().equals(""))
+        if (!areaDescripcionNuevoProducto.getText().equals(""))
             descripcion = areaDescripcionNuevoProducto.getText();
         if (!fldPrecioNuevoProducto.getText().equals(""))
             precio = fldPrecioNuevoProducto.getText();
@@ -135,20 +134,18 @@ public class Controller implements Initializable {
             id_categoria = fldCategoria.getText();
 
         PreparedStatement ps = null;
-        try{
+        try {
             Conexion conexion = new Conexion();
             Connection conexion2 = conexion.getConexion();
 
-            if(!areaDescripcionNuevoProducto.getText().equals("")) {
+            if (!areaDescripcionNuevoProducto.getText().equals("")) {
                 ps = conexion2.prepareStatement("INSERT INTO producto (nombre_producto, " +
                         "descripcion_producto, precio, id_categoria) values (?,?,?,?)");
                 ps.setString(1, nombre);
                 ps.setString(2, descripcion);
                 ps.setString(3, precio);
                 ps.setInt(4, Integer.parseInt(id_categoria));
-            }
-
-            else {
+            } else {
                 ps = conexion2.prepareStatement("INSERT INTO producto (nombre_producto, " +
                         "precio, id_categoria) values (?,?,?)");
                 ps.setString(1, nombre);
@@ -156,16 +153,14 @@ public class Controller implements Initializable {
                 ps.setInt(3, Integer.parseInt(id_categoria));
             }
             int resultado = ps.executeUpdate();
-            if (resultado > 0){
+            if (resultado > 0) {
                 JOptionPane.showMessageDialog(null, "Registrado correctamente");
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Algo ha salido mal");
             }
 
 //            resultSet = declaracion.executeQuery()
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -188,19 +183,19 @@ public class Controller implements Initializable {
         llenarTabla(true);
     }
 
-    private void llenarTabla(boolean porPrecio){
+    private void llenarTabla(boolean porPrecio) {
         try {
             declaracion = conexionSql.createStatement();
             String orderBy = "";
 
-            if(porPrecio)
+            if (porPrecio)
                 ps = conexionSql.prepareStatement("SELECT * from producto order by precio");
             else
                 ps = conexionSql.prepareStatement("SELECT * from producto order by nombre_producto");
 
             resultSet = ps.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int id_producto = resultSet.getInt("id_producto");
                 String nombre_producto = resultSet.getString("nombre_producto");
                 String descripcion_producto = resultSet.getString("descripcion_producto");
@@ -222,7 +217,7 @@ public class Controller implements Initializable {
             colCategoria.setCellValueFactory(new PropertyValueFactory<>("id_categoria"));
             colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
 
-            tablarResultados.setItems(listaProductos);
+            tablaResultados.setItems(listaProductos);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -241,13 +236,27 @@ public class Controller implements Initializable {
     }
 
     public void eliminar(ActionEvent actionEvent) {
-        System.out.println(query);
-//        try{
-//            System.out.println(preparedStatement);
-//        }
-//        catch(SQLException ex){
-//            ex.printStackTrace();
-//        }
+        int selected = tablaResultados.getSelectionModel().getFocusedIndex();
+        Producto productoSeleccionado = listaProductos.get(selected);
+        String id = Integer.toString(productoSeleccionado.getId_producto());
+
+        conexionLocal = new Conexion();
+        conexionSql = conexionLocal.getConexion();
+
+        try {
+            ps = conexionSql.prepareStatement("delete from producto where id_producto = ?;");
+            ps.setString(1, id);
+
+            ps.execute();
+
+            tablaResultados.getItems().remove(selected);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+
+    public void buscarPorCategoria(ActionEvent actionEvent) {
+
+    }
 }
