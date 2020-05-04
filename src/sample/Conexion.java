@@ -11,7 +11,6 @@ public class Conexion {
     private final String base = "abarrotes";
     private final String user = "root";
     private final String password = "18550696";
-    // private final String url = "jdbc:mysql://localhost:3306/" + base;
     private final String  url = "jdbc:mysql://localhost:3306/abarrotes?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     private Connection con = null;

@@ -21,78 +21,69 @@
 
         <VBox spacing="5">
             <Label text="Buscar Producto(s)" style="-fx-font-size:20px;-fx-text-fill:#F9FBF2;"/>
-            <HBox spacing="10">
-                <VBox>
 
-                    <Label text="Buscar por Id" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField fx:id="fldIdProducto" onAction="#cambiarACampoId"/>
+            <GridPane vgap="5" hgap="5">
+                <Label text="Buscar por Id" style="-fx-text-fill:#F9FBF2;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="fldIdBuscarProducto" onMouseClicked="#cambiarACampoId" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-                </VBox>
+                <Label text="Buscar por nombre" style="-fx-text-fill:#F9FBF2;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <TextField fx:id="fldNombreProducto" onMouseClicked="#cambiarACampoNombre" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                <VBox>
+                <Label text="Buscar por categoria" style="-fx-text-fill:#F9FBF2;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-                    <Label text="Buscar por nombre" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField fx:id="fldNombreProducto" onAction="#cambiarACampoNombre"/>
+                <ChoiceBox prefWidth="160" fx:id="cbBusqudaCategoria" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Button text="Aceptar" fx:id="btnBuscar" onAction="#buscar" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
 
-                </VBox>
+                <Label text="Ordenar por" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
 
-            </HBox>
+                <HBox spacing ="5" GridPane.rowIndex="3" GridPane.columnIndex="1" >
+                    <Button fx:id="btnOrdenarAlfabeto" text="Alfabeto" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                    onAction="#ordenarPorAlfabeto"/>
+                    <Button fx:id="btnOrdenarPrecio" text="Precio" GridPane.columnIndex="2" GridPane.rowIndex="3"
+                    onAction="#ordenarPorPrecio"/>
+                </HBox>
+            </GridPane>
 
-            <Label text="Buscar por categoria" style="-fx-text-fill:#F9FBF2;"/>
-
-            <HBox spacing="5">
-
-                <ChoiceBox prefWidth="160" fx:id="cbBusqudaCategoria" onAction="#cambiarACampoCategoria"/>
-                <Button text="Aceptar" fx:id="btnBuscar" onAction="#buscar"/>
-
-            </HBox>
-
-            <TableView>
+            <TableView fx:id="tablarResultados">
                 <columns>
-                    <TableColumn text="Nombre"/>
-                    <TableColumn text="Descripción"/>
-                    <TableColumn text="Id"/>
-                    <TableColumn text="Precio"/>
-                    <TableColumn text="Categoría"/>
+                    <TableColumn text="Nombre" fx:id="colNombre"/>
+                    <TableColumn text="Descripción" fx:id="colDescripcion"/>
+                    <TableColumn text="Id" fx:id="colId"/>
+                    <TableColumn text="Precio" fx:id="colPrecio"/>
+                    <TableColumn text="Categoría" fx:id="colCategoria"/>
                 </columns>
             </TableView>
-
-            <Button text="Generar Reporte" fx:id="btnReporte" onAction="#generarReporte"/>
-
+        <Button text="Eliminar" fx:id="btnEliminar" onAction="#eliminar"/>
         </VBox>
 
         <VBox spacing="5">
             <Label text="Agregar Producto" style="-fx-text-fill:#F9FBF2; -fx-font-size:20px;"/>
 
-            <GridPane vgap="5" hgap="5">
-
-                <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill:#F9FBF2;"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="fldNombreNuevoProducto"/>
+                <Label text="Nombre" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField fx:id="fldNombreNuevoProducto"/>
 
                 <Label text="Descripcion (opcional)" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill:#F9FBF2;"/>
-                <TextArea GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="areaDescripcionNuevoProducto"/>
+                <TextArea maxWidth="500" fx:id="areaDescripcionNuevoProducto"/>
 
                 <Label text="Precio" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="fldPrecioNuevoProducto"/>
+                <TextField fx:id="fldPrecioNuevoProducto"/>
 
-                <Label text="Categoria" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-text-fill:#F9FBF2;"/>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="fldCategoria"/>
+                <Label text="Categoria" style="-fx-text-fill:#F9FBF2;"/>
+                <TextField fx:id="fldCategoria"/>
 
-                <Button text="Aceptar" GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="btnNuevoProducto" onAction="#agregarProducto"/>
+                <Button text="Aceptar" fx:id="btnNuevoProducto" onAction="#agregarProducto"/>
 
-            </GridPane>
 
-            <TextArea prefWidth="200" prefHeight="50"/>
+            <TextArea maxWidth="500" prefHeight="50"/>
             <VBox>
                 <Label text="Agregar Categoria" style="-fx-text-fill:#F9FBF2; -fx-font-size:20px;"/>
-                <GridPane>
-                    <Label text="NombreCategoria" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="fldNombreNuevaCategoria"/>
+                    <Label text="Nombre de la categoria" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextField fx:id="fldNombreNuevaCategoria"/>
 
-                    <Label text="DescripcionCategoria" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextArea GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="areaDescripcionNuevaCategoria"/>
-                </GridPane>
+                    <Label text="DescripcionCategoria" style="-fx-text-fill:#F9FBF2;"/>
+                    <TextArea maxWidth="500" fx:id="areaDescripcionNuevaCategoria"/>
             </VBox>
+            <Button text="Aceptar" fx:id="btnNuevaCategoria"/>
 
         </VBox>
     </HBox>
