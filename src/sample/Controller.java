@@ -15,6 +15,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+    public Button btnEditar;
     private String query;
     public TextField fldNombreProducto;
     public TextField fldIdBuscarProducto;
@@ -65,6 +66,9 @@ public class Controller implements Initializable {
         //Se usaran estos para que el buscador sepa segun que parametros hacer el select
         campoIdIsInUse = true;
         campoNombreIsInUse = false;
+
+        JOptionPane.showMessageDialog(null, "Bueno, ps no funciona el Buscar por categoria ni el update, ni le pude cambiar a LIKE la búsqueda, " +
+                "pero eso fue más por cansancio y falta de tiempo");
     }
 
     @FXML
@@ -236,27 +240,83 @@ public class Controller implements Initializable {
     }
 
     public void eliminar(ActionEvent actionEvent) {
-        int selected = tablaResultados.getSelectionModel().getFocusedIndex();
-        Producto productoSeleccionado = listaProductos.get(selected);
-        String id = Integer.toString(productoSeleccionado.getId_producto());
+        int salir = JOptionPane.showConfirmDialog(null, "¿Borrar producto?");
+        if(salir == 0){
+            int selected = tablaResultados.getSelectionModel().getFocusedIndex();
+            Producto productoSeleccionado = listaProductos.get(selected);
+            String id = Integer.toString(productoSeleccionado.getId_producto());
 
-        conexionLocal = new Conexion();
-        conexionSql = conexionLocal.getConexion();
+            conexionLocal = new Conexion();
+            conexionSql = conexionLocal.getConexion();
 
-        try {
-            ps = conexionSql.prepareStatement("delete from producto where id_producto = ?;");
-            ps.setString(1, id);
+            try {
+                ps = conexionSql.prepareStatement("delete from producto where id_producto = ?;");
+                ps.setString(1, id);
 
-            ps.execute();
+                ps.execute();
 
-            tablaResultados.getItems().remove(selected);
-        } catch (SQLException e) {
-            e.printStackTrace();
+                tablaResultados.getItems().remove(selected);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
 
     public void buscarPorCategoria(ActionEvent actionEvent) {
 
+    }
+
+    public void editar(ActionEvent actionEvent) {
+        String[] options = {"Nombre", "Descripcion", "Precio", "Categoria", "Cancelar"};
+        String columna = "";
+        String modificacion = "";
+        boolean cancelar = false;
+
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Qué deseas modificar?", "Modificar Producto", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        switch (seleccion){
+            case 0:
+                columna = "nombre_producto";
+                break;
+            case 1:
+                columna = "descripcion_producto";
+                break;
+            case 3:
+                columna = "precio";
+                break;
+            case 4:
+                columna = "id_categoria";
+                break;
+            case 5:
+                cancelar = true;
+        }
+        ps = null;
+        conexionLocal = new Conexion();
+        conexionSql = conexionLocal.getConexion();
+
+        if(!cancelar){
+            modificacion = JOptionPane.showInputDialog("Ingresa la modificacion");
+
+            try {
+                int selected = tablaResultados.getSelectionModel().getFocusedIndex();
+                Producto productoSeleccionado = listaProductos.get(selected);
+                String id = Integer.toString(productoSeleccionado.getId_producto());
+                query = "update producto set ? = ? where id_producto = ?";
+                System.out.println(query);
+//                if(seleccion >0 && seleccion < 2)
+//                    query = "update producto set ? = '?' where id_producto = ?;";
+
+                ps = conexionSql.prepareStatement(query);
+                ps.setString(1, columna);
+                ps.setString(2, modificacion);
+                ps.setString(3, id);
+                ps.executeUpdate();
+//
+//            tablaResultados.getItems().remove(selected);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@
                 </HBox>
             </GridPane>
 
-            <TableView fx:id="tablaResultados" prefWidth="600">
+            <TableView fx:id="tablaResultados" editable="true" prefWidth="600">
                 <columns>
                     <TableColumn text="Nombre" fx:id="colNombre" prefWidth="100"/>
                     <TableColumn text="Descripción" fx:id="colDescripcion" prefWidth="200"/>
@@ -51,7 +51,10 @@
                     <TableColumn text="Categoría" fx:id="colCategoria"/>
                 </columns>
             </TableView>
-            <Button text="Eliminar" fx:id="btnEliminar" onAction="#eliminar"/>
+            <HBox>
+                <Button text="Eliminar" fx:id="btnEliminar" onAction="#eliminar"/>
+                <Button text="Editar" fx:id="btnEditar" onAction="#editar"/>
+            </HBox>
 
         </VBox>
 
@@ -74,15 +77,6 @@
 
 
             <TextArea maxWidth="500" prefHeight="50"/>
-            <VBox>
-                <Label text="Agregar Categoria" style="-fx-text-fill:#F9FBF2; -fx-font-size:20px;"/>
-                    <Label text="Nombre de la categoria" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextField fx:id="fldNombreNuevaCategoria"/>
-
-                    <Label text="DescripcionCategoria" style="-fx-text-fill:#F9FBF2;"/>
-                    <TextArea maxWidth="500" fx:id="areaDescripcionNuevaCategoria"/>
-            </VBox>
-            <Button text="Aceptar" fx:id="btnNuevaCategoria"/>
 
         </VBox>
     </HBox>
