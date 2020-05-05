@@ -66,9 +66,6 @@ public class Controller implements Initializable {
         //Se usaran estos para que el buscador sepa segun que parametros hacer el select
         campoIdIsInUse = true;
         campoNombreIsInUse = false;
-
-        JOptionPane.showMessageDialog(null, "Bueno, ps no funciona el Buscar por categoria ni el update, ni le pude cambiar a LIKE la búsqueda, " +
-                "pero eso fue más por cansancio y falta de tiempo");
     }
 
     @FXML
